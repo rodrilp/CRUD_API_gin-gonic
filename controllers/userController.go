@@ -3,6 +3,7 @@ package controllers
 import (
 	"crud_api_gin-gonic/config"
 	"crud_api_gin-gonic/models"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -49,4 +50,21 @@ func GetUserById(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"user": user})
+}
+
+func DeleteUser (c *gin.Context) {
+	// Obtain data from the uri
+	id := c.Param("id")
+
+	// Obtain the user with the id passed as a param
+	result := config.DatabaseConnection().Delete(&user, id)
+
+	if result.Error != nil {
+		c.Status(400)
+		return
+	}
+
+	message := fmt.Sprintf("User with ID %s has been delete", id)
+
+	c.JSON(200, gin.H{"message": message})
 }
