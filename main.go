@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
 func setupRouter() *gin.Engine {
 	r := gin.Default()
 
@@ -18,6 +17,8 @@ func setupRouter() *gin.Engine {
 	userGroup.POST("", controllers.CreateUser)
 	userGroup.GET("/:id", controllers.GetUserById)
 	userGroup.GET("", controllers.GetUsers)
+	userGroup.DELETE("/:id", controllers.DeleteUser)
+	userGroup.PATCH("/:id", controllers.UpdateUser)
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(404, gin.H{"message": "Page not found"})
